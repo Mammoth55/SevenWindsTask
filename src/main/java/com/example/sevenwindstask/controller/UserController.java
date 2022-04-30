@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("/")
     public ResponseEntity<List<UserDtoResponse>> getAll() {
         return ResponseEntity.ok(userService.getAll().stream()
-                .map(this::convertToDto)
+                .map(UserController::convertUserToDto)
                 .collect(Collectors.toList()));
     }
 
@@ -45,9 +45,9 @@ public class UserController {
             operationId = "userGetById")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = UserDtoResponse.class)))})
-    @GetMapping("/{id:[\\d]+}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<UserDtoResponse> getById(@PathVariable(ID) long id) {
-        return ResponseEntity.ok(convertToDto(userService.getById(id)));
+        return ResponseEntity.ok(convertUserToDto(userService.getById(id)));
     }
 
     @Operation(summary = "Find User by Car Number",
@@ -57,7 +57,7 @@ public class UserController {
             content = @Content(schema = @Schema(implementation = UserDtoResponse.class)))})
     @GetMapping("/carNumber")
     public ResponseEntity<UserDtoResponse> getByCarNumber(@RequestParam(name = "carNumber", value = "carNumber") String carNumber) {
-        return ResponseEntity.ok(convertToDto(userService.getByCarNumber(carNumber)));
+        return ResponseEntity.ok(convertUserToDto(userService.getByCarNumber(carNumber)));
     }
 
     @Operation(summary = "Create new User",
@@ -67,7 +67,7 @@ public class UserController {
             content = @Content(schema = @Schema(implementation = UserDtoResponse.class)))})
     @PostMapping("/")
     public ResponseEntity<UserDtoResponse> create(@RequestBody UserDtoRequest request) {
-        return ResponseEntity.ok(convertToDto(userService.create(request)));
+        return ResponseEntity.ok(convertUserToDto(userService.create(request)));
     }
 
     @Operation(summary = "Update User by Id",
@@ -75,9 +75,9 @@ public class UserController {
             operationId = "userUpdate")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = UserDtoResponse.class)))})
-    @PutMapping("/{id:[\\d]+}")
+    @PutMapping("/{id:\\d+}")
     public ResponseEntity<UserDtoResponse> update(@PathVariable(ID) long id, @RequestBody UserDtoRequest request) {
-        return ResponseEntity.ok(convertToDto(userService.update(id, request)));
+        return ResponseEntity.ok(convertUserToDto(userService.update(id, request)));
     }
 
     @Operation(summary = "Delete User by Id",
@@ -85,12 +85,12 @@ public class UserController {
             operationId = "userDelete")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = UserDtoResponse.class)))})
-    @DeleteMapping("/{id:[\\d]+}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<UserDtoResponse> delete(@PathVariable(ID) long id) {
-        return ResponseEntity.ok(convertToDto(userService.deleteById(id)));
+        return ResponseEntity.ok(convertUserToDto(userService.deleteById(id)));
     }
 
-    private UserDtoResponse convertToDto(User user) {
+    static UserDtoResponse convertUserToDto(User user) {
         return UserDtoResponse.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())

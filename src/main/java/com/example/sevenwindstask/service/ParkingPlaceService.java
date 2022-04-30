@@ -34,8 +34,9 @@ public class ParkingPlaceService {
     }
 
     @Transactional
-    public ParkingPlace create(ParkingPlaceDtoRequest request) {
+    public ParkingPlace create(long id, ParkingPlaceDtoRequest request) {
         return parkingPlaceRepository.save(ParkingPlace.builder()
+                .id(id)
                 .number(request.getNumber())
                 .status(ParkingPlaceStatus.valueOf(request.getStatus()))
                 .price(request.getPrice())
@@ -46,12 +47,7 @@ public class ParkingPlaceService {
     public ParkingPlace update(long id, ParkingPlaceDtoRequest request) {
         var parkingPlace = parkingPlaceRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("There is no ParkingPlace with ID = " + id + " in Database."));
-        parkingPlaceRepository.save(ParkingPlace.builder()
-                .id(id)
-                .number(request.getNumber())
-                .status(ParkingPlaceStatus.valueOf(request.getStatus()))
-                .price(request.getPrice())
-                .build());
+        create(id, request);
         return parkingPlace;
     }
 

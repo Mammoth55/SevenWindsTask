@@ -1,11 +1,8 @@
 package com.example.sevenwindstask.controller;
 
 import com.example.sevenwindstask.dto.request.ParkingPlaceDtoRequest;
-import com.example.sevenwindstask.dto.request.UserDtoRequest;
 import com.example.sevenwindstask.dto.response.ParkingPlaceDtoResponse;
-import com.example.sevenwindstask.dto.response.UserDtoResponse;
 import com.example.sevenwindstask.model.ParkingPlace;
-import com.example.sevenwindstask.model.User;
 import com.example.sevenwindstask.service.ParkingPlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -39,7 +36,7 @@ public class ParkingPlaceController {
     @GetMapping("/")
     public ResponseEntity<List<ParkingPlaceDtoResponse>> getAll() {
         return ResponseEntity.ok(parkingPlaceService.getAll().stream()
-                .map(this::convertToDto)
+                .map(ParkingPlaceController::convertParkingPlaceToDto)
                 .collect(Collectors.toList()));
     }
 
@@ -48,9 +45,9 @@ public class ParkingPlaceController {
             operationId = "parkingPlaceGetById")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = ParkingPlaceDtoResponse.class)))})
-    @GetMapping("/{id:[\\d]+}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<ParkingPlaceDtoResponse> getById(@PathVariable(ID) long id) {
-        return ResponseEntity.ok(convertToDto(parkingPlaceService.getById(id)));
+        return ResponseEntity.ok(convertParkingPlaceToDto(parkingPlaceService.getById(id)));
     }
 
     @Operation(summary = "Find ParkingPlace by Number",
@@ -60,7 +57,7 @@ public class ParkingPlaceController {
             content = @Content(schema = @Schema(implementation = ParkingPlaceDtoResponse.class)))})
     @GetMapping("/number")
     public ResponseEntity<ParkingPlaceDtoResponse> getByNumber(@RequestParam(name = "number", value = "number") String number) {
-        return ResponseEntity.ok(convertToDto(parkingPlaceService.getByNumber(number)));
+        return ResponseEntity.ok(convertParkingPlaceToDto(parkingPlaceService.getByNumber(number)));
     }
 
     @Operation(summary = "Create new ParkingPlace",
@@ -70,7 +67,7 @@ public class ParkingPlaceController {
             content = @Content(schema = @Schema(implementation = ParkingPlaceDtoResponse.class)))})
     @PostMapping("/")
     public ResponseEntity<ParkingPlaceDtoResponse> create(@RequestBody ParkingPlaceDtoRequest request) {
-        return ResponseEntity.ok(convertToDto(parkingPlaceService.create(request)));
+        return ResponseEntity.ok(convertParkingPlaceToDto(parkingPlaceService.create(0L, request)));
     }
 
     @Operation(summary = "Update ParkingPlace by Id",
@@ -78,9 +75,9 @@ public class ParkingPlaceController {
             operationId = "parkingPlaceUpdate")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = ParkingPlaceDtoResponse.class)))})
-    @PutMapping("/{id:[\\d]+}")
+    @PutMapping("/{id:\\d+}")
     public ResponseEntity<ParkingPlaceDtoResponse> update(@PathVariable(ID) long id, @RequestBody ParkingPlaceDtoRequest request) {
-        return ResponseEntity.ok(convertToDto(parkingPlaceService.update(id, request)));
+        return ResponseEntity.ok(convertParkingPlaceToDto(parkingPlaceService.update(id, request)));
     }
 
     @Operation(summary = "Delete ParkingPlace by Id",
@@ -88,12 +85,12 @@ public class ParkingPlaceController {
             operationId = "parkingPlaceDelete")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = ParkingPlaceDtoResponse.class)))})
-    @DeleteMapping("/{id:[\\d]+}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<ParkingPlaceDtoResponse> delete(@PathVariable(ID) long id) {
-        return ResponseEntity.ok(convertToDto(parkingPlaceService.deleteById(id)));
+        return ResponseEntity.ok(convertParkingPlaceToDto(parkingPlaceService.deleteById(id)));
     }
 
-    private ParkingPlaceDtoResponse convertToDto(ParkingPlace parkingPlace) {
+    static ParkingPlaceDtoResponse convertParkingPlaceToDto(ParkingPlace parkingPlace) {
         return ParkingPlaceDtoResponse.builder()
                 .id(parkingPlace.getId())
                 .number(parkingPlace.getNumber())

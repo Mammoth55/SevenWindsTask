@@ -32,6 +32,8 @@ public class UserServiceTest {
             .lastName("1111111")
             .email(TEST_EMAIL1)
             .phoneNumber("79835247953")
+            .carNumber("A555AA55")
+            .carModel("BMW X6 White")
             .build();
 
     private static final User USER_2 = User.builder()
@@ -41,6 +43,8 @@ public class UserServiceTest {
             .lastName("2222222")
             .email(TEST_EMAIL2)
             .phoneNumber("79835247933")
+            .carNumber("X777AM777")
+            .carModel("Lamborghini Diablo Black")
             .build();
 
     private static final User USER_3 = User.builder()
@@ -50,6 +54,8 @@ public class UserServiceTest {
             .lastName("3333333")
             .email(TEST_EMAIL3)
             .phoneNumber("79835247943")
+            .carNumber("Y121BA55")
+            .carModel("Toyota Prius White")
             .build();
 
     private UserService userService;
