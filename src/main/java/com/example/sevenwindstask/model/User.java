@@ -1,6 +1,7 @@
 package com.example.sevenwindstask.model;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
 @Entity(name = "users")
 public class User {
 
