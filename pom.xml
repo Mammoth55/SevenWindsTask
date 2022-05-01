@@ -10,10 +10,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>SevenWindsTask</artifactId>
+    <artifactId>SigmaTask</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <name>SevenWindsTask</name>
-    <description>Test Task project</description>
+    <name>SigmaTask</name>
+    <description>Sigma Test Task project</description>
 
     <properties>
         <java.version>11</java.version>
